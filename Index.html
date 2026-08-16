@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Kirukii 🐼💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-bg1:#ffe1ef;
+    --pink-bg2:#ffc6e0;
+    --pink-deep:#ff4f8b;
+    --pink-mid:#ff85b3;
+    --pink-soft:#ffd6e8;
+    --panda-black:#2b2b2f;
+    --cream:#fff7fb;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    width:100%; min-height:100%;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(160deg,var(--pink-bg1),var(--pink-bg2) 55%, #ffb3d1);
+    overflow-x:hidden;
+    color:var(--panda-black);
+  }
+  .display{font-family:'Dancing Script',cursive;}
+
+  /* ---------- floating background layer ---------- */
+  #bg-layer{
+    position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0;
+  }
+  .float-panda{
+    position:absolute; bottom:-120px; opacity:0.85;
+    animation:floatUp linear infinite;
+  }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0;}
+    8%{ opacity:0.9; }
+    50%{ transform:translateY(-55vh) translateX(20px) rotate(8deg); }
+    92%{ opacity:0.9; }
+    100%{ transform:translateY(-110vh) translateX(-15px) rotate(-6deg); opacity:0;}
+  }
+  .paw-print{
+    position:absolute; opacity:0.35; animation:driftFade linear infinite;
+  }
+  @keyframes driftFade{
+    0%{transform:translateY(0) rotate(0deg); opacity:0;}
+    15%{opacity:.35;}
+    85%{opacity:.35;}
+    100%{transform:translateY(-100vh) rotate(25deg); opacity:0;}
+  }
+
+  /* ---------- cat & mouse chase strip ---------- */
+  #chase-strip{
+    position:fixed; bottom:0; left:0; width:100%; height:70px; z-index:1; pointer-events:none;
+    overflow:hidden;
+  }
+  .mouse-run{
+    position:absolute; bottom:6px; left:-60px;
+    animation:runAcross 7s linear infinite;
+  }
+  .cat-run{
+    position:absolute; bottom:0px; left:-110px;
+    animation:runAcross 7s linear infinite;
+    animation-delay:0.35s;
+  }
+  @keyframes runAcross{
+    0%{ left:-15%; }
+    100%{ left:115%; }
+  }
+
+  /* ================= HERO / HEART SCREEN ================= */
+  #hero{
+    position:relative; z-index:2;
+    min-height:100vh; width:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:40px 20px 100px;
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  #hero.hidden{
+    opacity:0; transform:scale(0.9); pointer-events:none; position:absolute; inset:0;
+  }
+  .hero-title{
+    font-size:2rem; color:var(--pink-deep); margin-bottom:6px; font-weight:600;
+    letter-spacing:0.5px;
+  }
+  .hero-name{
+    font-family:'Dancing Script',cursive; font-size:3.4rem; color:#e0316b;
+    text-shadow:2px 2px 0 #fff, 0 4px 14px rgba(255,79,139,0.35);
+    margin-bottom:18px;
+  }
+  .hero-sub{
+    font-size:0.95rem; color:#7a3552; max-width:320px; margin-bottom:34px; line-height:1.5;
+  }
+
+  /* heart button, made of two halves that split apart */
+  .heart-wrap{
+    position:relative; width:170px; height:160px; cursor:pointer;
+    filter:drop-shadow(0 10px 25px rgba(255,60,120,0.45));
+  }
+  .heart-wrap:active{ transform:scale(0.96); }
+  .half{
+    position:absolute; top:0; width:85px; height:160px; overflow:hidden;
+    transition:transform 1s cubic-bezier(.4,1.6,.4,1), opacity 1s ease;
+  }
+  .half svg{ position:absolute; top:0; width:170px; height:160px; }
+  .half-left{ left:0; }
+  .half-right{ right:0; }
+  .half-left svg{ left:0; }
+  .half-right svg{ left:-85px; }
+  .split .half-left{ transform:translateX(-70px) rotate(-18deg); opacity:0; }
+  .split .half-right{ transform:translateX(70px) rotate(18deg); opacity:0; }
+
+  .pulse{
+    animation:pulseHeart 1.4s ease-in-out infinite;
+  }
+  @keyframes pulseHeart{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.06); }
+  }
+  .tap-hint{
+    margin-top:22px; font-size:0.85rem; color:#a3395f; font-weight:500;
+    animation:hintBlink 1.8s ease-in-out infinite;
+  }
+  @keyframes hintBlink{ 0%,100%{opacity:0.5;} 50%{opacity:1;} }
+
+  /* ================= MAIN REVEAL CONTENT ================= */
+  #reveal{
+    position:relative; z-index:2; width:100%;
+    display:none; flex-direction:column; align-items:center;
+    padding:60px 20px 120px; text-align:center;
+  }
+  #reveal.show{ display:flex; }
+  .fade-up{
+    opacity:0; transform:translateY(30px);
+    animation:fadeUp .9s forwards;
+  }
+  @keyframes fadeUp{ to{ opacity:1; transform:translateY(0);} }
+
+  .headline{
+    font-family:'Dancing Script',cursive;
+    font-size:2.9rem; color:#e0316b; margin-bottom:6px;
+    text-shadow:2px 2px 0 #fff;
+  }
+  .headline-sub{
+    font-size:1rem; color:#8a3f5b; margin-bottom:36px; letter-spacing:1px; text-transform:uppercase; font-size:0.75rem;
+  }
+
+  /* panda ribbon divider */
+  .panda-divider{ display:flex; gap:14px; align-items:center; margin:18px 0 30px; }
+  .panda-divider svg{ width:34px; height:34px; }
+  .panda-divider .line{ width:60px; height:2px; background:linear-gradient(90deg,transparent,var(--pink-mid),transparent); }
+
+  /* photo grid */
+  .photo-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:360px; margin-bottom:40px;
+  }
+  .photo-frame{
+    position:relative; aspect-ratio:1/1; border-radius:20px; overflow:hidden;
+    background:linear-gradient(150deg,#fff, var(--pink-soft));
+    border:4px solid #fff;
+    box-shadow:0 10px 22px rgba(255,90,150,0.28);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:6px;
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; }
+  .photo-frame .ph-icon{ font-size:1.9rem; }
+  .photo-frame .ph-label{ font-size:0.7rem; color:#b04b73; font-weight:600; }
+  .photo-frame .ear{
+    position:absolute; top:-10px; width:26px; height:26px; background:var(--panda-black);
+    border-radius:50%; border:4px solid #fff;
+  }
+  .photo-frame .ear.l{ left:8px; } .photo-frame .ear.r{ right:8px; }
+
+  /* message card */
+  .msg-card{
+    background:rgba(255,255,255,0.85); backdrop-filter:blur(4px);
+    border-radius:24px; padding:26px 22px; max-width:380px; width:100%;
+    box-shadow:0 12px 30px rgba(255,80,140,0.22);
+    margin-bottom:26px; border:2px solid #ffdcec;
+  }
+  .msg-card .tamil{
+    font-size:1rem; color:#c22368; font-weight:500; line-height:1.7; margin-bottom:14px;
+  }
+  .msg-card .divider-mini{ width:40px; height:2px; background:var(--pink-mid); margin:0 auto 14px; }
+  .msg-card .english{
+    font-size:0.88rem; color:#6b3450; line-height:1.7; font-style:italic;
+  }
+
+  .final-line{
+    font-size:1.15rem; color:#a3235c; font-weight:600; max-width:360px; line-height:1.6; margin-bottom:14px;
+  }
+  .final-emoji{ font-size:1.6rem; letter-spacing:6px; }
+
+  /* music toggle */
+  #music-btn{
+    position:fixed; bottom:20px; right:20px; z-index:5;
+    width:52px; height:52px; border-radius:50%; border:none; cursor:pointer;
+    background:linear-gradient(145deg,#ff6fa1,#ff3f80);
+    color:#fff; font-size:1.3rem; box-shadow:0 8px 18px rgba(255,60,120,0.45);
+    display:flex; align-items:center; justify-content:center;
+  }
+  #music-btn.playing{ animation:pulseHeart 1.2s ease-in-out infinite; }
+
+  /* confetti */
+  .confetti-piece{
+    position:fixed; top:-20px; z-index:6; pointer-events:none; border-radius:2px;
+  }
+  @keyframes confettiFall{
+    to{ transform:translateY(110vh) rotate(360deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="bg-layer"></div>
+
+<div id="chase-strip">
+  <svg class="mouse-run" width="34" height="24" viewBox="0 0 34 24">
+    <ellipse cx="14" cy="16" rx="11" ry="7" fill="#b5793f"/>
+    <circle cx="26" cy="10" r="6" fill="#b5793f"/>
+    <circle cx="24" cy="7" r="2.4" fill="#8f5c2b"/>
+    <circle cx="29" cy="8" r="2" fill="#8f5c2b"/>
+    <circle cx="28" cy="9" r="0.8" fill="#2b2b2f"/>
+    <path d="M4 16 Q -4 8 2 4" stroke="#8f5c2b" stroke-width="1.6" fill="none"/>
+  </svg>
+  <svg class="cat-run" width="46" height="30" viewBox="0 0 46 30">
+    <ellipse cx="20" cy="20" rx="18" ry="9" fill="#8c8c94"/>
+    <circle cx="36" cy="11" r="9" fill="#8c8c94"/>
+    <polygon points="29,4 32,10 26,10" fill="#8c8c94"/>
+    <polygon points="41,4 44,10 38,10" fill="#8c8c94"/>
+    <circle cx="33" cy="11" r="1.6" fill="#2b2b2f"/>
+    <circle cx="39" cy="11" r="1.6" fill="#2b2b2f"/>
+    <path d="M3 22 Q -8 10 0 2" stroke="#8c8c94" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="hero-title">A little surprise for</div>
+  <div class="hero-name">Gayathiri 🐼</div>
+  <div class="hero-sub">Pull the heart open, kirukii... there's something waiting for you inside 💗</div>
+
+  <div class="heart-wrap pulse" id="heartWrap" onclick="splitHeart()">
+    <div class="half half-left">
+      <svg viewBox="0 0 170 160"><path d="M85 150 C-10 90 5 15 50 8 C70 5 82 20 85 35 C88 20 100 5 120 8 C165 15 180 90 85 150 Z" fill="#ff3f80"/></svg>
+    </div>
+    <div class="half half-right">
+      <svg viewBox="0 0 170 160"><path d="M85 150 C-10 90 5 15 50 8 C70 5 82 20 85 35 C88 20 100 5 120 8 C165 15 180 90 85 150 Z" fill="#ff3f80"/></svg>
+    </div>
+  </div>
+  <div class="tap-hint">👉 tap the heart 👈</div>
+</section>
+
+<!-- ================= REVEAL ================= -->
+<section id="reveal">
+  <div class="headline-sub fade-up" style="animation-delay:.05s">for my favourite person</div>
+  <div class="headline fade-up" style="animation-delay:.15s">Happy Birthday Kirukii</div>
+
+  <div class="panda-divider fade-up" style="animation-delay:.25s">
+    <div class="line"></div>
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#fff"/><circle cx="14" cy="10" r="10" fill="#2b2b2f"/><circle cx="46" cy="10" r="10" fill="#2b2b2f"/><ellipse cx="20" cy="30" rx="9" ry="11" fill="#2b2b2f"/><ellipse cx="40" cy="30" rx="9" ry="11" fill="#2b2b2f"/><circle cx="20" cy="30" r="3" fill="#fff"/><circle cx="40" cy="30" r="3" fill="#fff"/><ellipse cx="30" cy="42" rx="6" ry="5" fill="#2b2b2f"/><circle cx="12" cy="40" r="5" fill="#ffb3cf"/><circle cx="48" cy="40" r="5" fill="#ffb3cf"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <div class="photo-grid fade-up" style="animation-delay:.35s">
+    <div class="photo-frame"><span class="ear l"></span><span class="ear r"></span><img src="photo1.jpg" alt="memory one"></div>
+    <div class="photo-frame"><span class="ear l"></span><span class="ear r"></span><img src="photo2.jpg" alt="memory one"></div>
+    <div class="photo-frame"><span class="ear l"></span><span class="ear r"></span><img src="photo3.jpg" alt="memory one"></div>
+    <div class="photo-frame"><span class="ear l"></span><span class="ear r"></span><img src="photo4.jpg" alt="memory one"></div>
+  </div>
+
+  <div class="msg-card fade-up" style="animation-delay:.5s">
+    <div class="tamil">"life long happy ahh iru na, eppothum un bestfriend ahh naan unkudave irupen. entha kastam vanthalum unkudave iruppen, nee eppothum happy ahh irukanum."</div>
+    <div class="divider-mini"></div>
+    <div class="english">"May you be happy for life. I'll always be your best friend and I'll always be by your side. No matter what hardship comes, I'll stay with you — you should always be happy."</div>
+  </div>
+
+  <div class="final-line fade-up" style="animation-delay:.65s">
+    Makku... once again Happy Birthday, my dear bestfriend
+  </div>
+  <div class="final-emoji fade-up" style="animation-delay:.75s">✨🤗💗</div>
+</section>
+
+<audio id="bgm" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+<script>
+  // ---------- floating pandas + paw prints ----------
+  const bg = document.getElementById('bg-layer');
+  function pandaSVG(size){
+    return `<svg width="${size}" height="${size}" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="26" fill="#fff"/>
+      <circle cx="14" cy="10" r="10" fill="#2b2b2f"/>
+      <circle cx="46" cy="10" r="10" fill="#2b2b2f"/>
+      <ellipse cx="20" cy="30" rx="9" ry="11" fill="#2b2b2f"/>
+      <ellipse cx="40" cy="30" rx="9" ry="11" fill="#2b2b2f"/>
+      <circle cx="20" cy="30" r="3" fill="#fff"/>
+      <circle cx="40" cy="30" r="3" fill="#fff"/>
+      <ellipse cx="30" cy="42" rx="6" ry="5" fill="#2b2b2f"/>
+      <circle cx="12" cy="40" r="5" fill="#ffb3cf"/>
+      <circle cx="48" cy="40" r="5" fill="#ffb3cf"/>
+    </svg>`;
+  }
+  const pandaCount = 9;
+  for(let i=0;i<pandaCount;i++){
+    const el = document.createElement('div');
+    el.className = 'float-panda';
+    const size = 28 + Math.random()*38;
+    el.style.left = (Math.random()*94)+'%';
+    el.style.width = size+'px';
+    el.style.animationDuration = (10+Math.random()*10)+'s';
+    el.style.animationDelay = (Math.random()*12)+'s';
+    el.innerHTML = pandaSVG(size);
+    bg.appendChild(el);
+  }
+  const pawCount = 10;
+  for(let i=0;i<pawCount;i++){
+    const el = document.createElement('div');
+    el.className='paw-print';
+    el.textContent='🐾';
+    el.style.left = (Math.random()*96)+'%';
+    el.style.bottom = '-40px';
+    el.style.fontSize = (12+Math.random()*14)+'px';
+    el.style.color = '#ff85b3';
+    el.style.animationDuration = (8+Math.random()*9)+'s';
+    el.style.animationDelay = (Math.random()*10)+'s';
+    bg.appendChild(el);
+  }
+
+  // ---------- heart split + reveal ----------
+  function splitHeart(){
+    const wrap = document.getElementById('heartWrap');
+    wrap.classList.remove('pulse');
+    wrap.classList.add('split');
+    burstConfetti();
+    setTimeout(()=>{
+      document.getElementById('hero').classList.add('hidden');
+      document.getElementById('reveal').classList.add('show');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }, 750);
+  }
+
+  function burstConfetti(){
+    const colors = ['#ff3f80','#ff85b3','#ffffff','#ffd6e8','#ff9dc4'];
+    for(let i=0;i<45;i++){
+      const c = document.createElement('div');
+      c.className='confetti-piece';
+      const size = 6+Math.random()*8;
+      c.style.width = size+'px';
+      c.style.height = size+'px';
+      c.style.left = (Math.random()*100)+'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const dur = 2.2+Math.random()*1.6;
+      c.style.animation = `confettiFall ${dur}s ease-in forwards`;
+      c.style.animationDelay = (Math.random()*0.4)+'s';
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(), (dur+1)*1000);
+    }
+  }
+
+  // ---------- music toggle ----------
+  const bgm = document.getElementById('bgm');
+  const musicBtn = document.getElementById('music-btn');
+  let playing = false;
+  function toggleMusic(){
+    if(!bgm.querySelector('source')){
+      musicBtn.textContent='🔇';
+      alert('No song has been added yet — see the code comment near the <audio> tag to plug in a song file.');
+      return;
+    }
+    if(playing){ bgm.pause(); musicBtn.classList.remove('playing'); musicBtn.textContent='🎵'; }
+    else { bgm.play(); musicBtn.classList.add('playing'); musicBtn.textContent='⏸'; }
+    playing = !playing;
+  }
+</script>
+</body>
+</html>
